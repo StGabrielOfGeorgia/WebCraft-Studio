@@ -88,7 +88,8 @@ export const Contact: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form action="https://formspree.io/f/mzdebgwr"
+  method="POST" onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-zinc-700 mb-2 pl-1">Nom complet</label>
                   <input
