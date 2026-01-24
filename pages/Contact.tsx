@@ -11,14 +11,30 @@ export const Contact: React.FC = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setFormState({ name: '', email: '', phone: '', message: '' });
-    }, 1000);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault(); // Empêche le rechargement de la page
+
+  try {
+    const response = await fetch("https://formspree.io/f/mzdebgwr", {
+      method: "POST",
+      body: JSON.stringify(formState), // On envoie les données de ton state
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      alert("Merci ! Votre message a bien été envoyé.");
+      // Optionnel : Réinitialiser le formulaire
+      setFormState({ name: "", email: "", phone: "", message: "" });
+    } else {
+      alert("Oops ! Il y a eu un problème lors de l'envoi.");
+    }
+  } catch (error) {
+    alert("Erreur réseau : impossible de contacter le serveur.");
+  }
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
