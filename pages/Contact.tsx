@@ -31,10 +31,10 @@ export const Contact: React.FC = () => {
         setIsSubmitted(true);
         setFormState({ name: '', email: '', phone: '', message: '' });
       } else {
-        alert("Une erreur est survenue.");
+        alert("Une erreur est survenue lors de l'envoi.");
       }
     } catch (error) {
-      alert("Erreur réseau.");
+      alert("Erreur réseau : vérifiez votre connexion.");
     } finally {
       setIsPending(false);
     }
@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
-          {/* --- PARTIE GAUCHE (INFOS) : TOUJOURS VISIBLE --- */}
+          {/* --- PARTIE GAUCHE (INFOS) --- */}
           <div className="flex flex-col justify-center">
             <h1 className="text-4xl font-bold text-zinc-900 mb-6 tracking-tight">Parlons de votre projet.</h1>
             <p className="text-lg text-zinc-600 mb-10 leading-relaxed">
@@ -94,7 +94,6 @@ export const Contact: React.FC = () => {
           {/* --- PARTIE DROITE (FORMULAIRE OU SUCCÈS) --- */}
           <div className="bg-white p-8 md:p-12 rounded-[32px] border border-zinc-200 shadow-xl shadow-zinc-200/50">
             {isSubmitted ? (
-              /* DESIGN DE SUCCÈS */
               <div className="h-full flex flex-col items-center justify-center text-center py-10">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-bounce">
                   <Send className="h-10 w-10 text-green-600" />
@@ -109,10 +108,83 @@ export const Contact: React.FC = () => {
                 </button>
               </div>
             ) : (
-              /* FORMULAIRE */
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-zinc-700 mb-2 pl-1">Nom complet</label>
                   <input
-                    type="text" id="name" name="name" required
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
                     value={formState.name}
+                    onChange={handleChange}
+                    className="w-full px-5 py-3.5 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-zinc-50 focus:bg-white hover:border-zinc-300"
+                    placeholder="Votre nom"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-zinc-700 mb-2 pl-1">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formState.email}
+                      onChange={handleChange}
+                      className="w-full px-5 py-3.5 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-zinc-50 focus:bg-white hover:border-zinc-300"
+                      placeholder="votre@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-zinc-700 mb-2 pl-1">Téléphone</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      value={formState.phone}
+                      onChange={handleChange}
+                      className="w-full px-5 py-3.5 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-zinc-50 focus:bg-white hover:border-zinc-300"
+                      placeholder="034 00 000 00"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-zinc-700 mb-2 pl-1">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    value={formState.message}
+                    onChange={handleChange}
+                    className="w-full px-5 py-3.5 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-zinc-50 focus:bg-white resize-none hover:border-zinc-300"
+                    placeholder="Parlez-nous de votre projet..."
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <Button type="submit" fullWidth disabled={isPending}>
+                    {isPending ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="animate-spin h-4 w-4" /> Envoi en cours...
+                      </span>
+                    ) : (
+                      "Discutons de votre projet"
+                    )}
+                  </Button>
+                </div>
+                <p className="text-xs text-zinc-400 text-center mt-4">
+                  Vos informations sont confidentielles et ne seront jamais partagées.
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
